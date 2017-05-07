@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser';
 import {Supplier} from "./suppliers/supplier";
 import {SendController} from "./controllers/send.controller";
 import {NumberController} from "./controllers/number.controller";
+import {Log} from "./log";
 
 /**
  * Class for handling the web server and all routing.
@@ -55,6 +56,6 @@ export class Server {
      * Spools up the server on the required port.
      */
     private startServer() {
-        this.app.listen(this.port, () => console.log('Server now running on port ' + this.port));
+        this.app.listen(this.port, () => Log.notice('Server now running on port ' + this.port));
     }
 }

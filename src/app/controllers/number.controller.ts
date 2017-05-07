@@ -1,4 +1,5 @@
 import {Supplier} from "../suppliers/supplier";
+import {Log} from "../log";
 
 export class NumberController {
 
@@ -6,6 +7,7 @@ export class NumberController {
         let errors: string[] = [];
 
         if (req.body.apiKey === undefined) {
+            Log.warning("Attempt to assign a number without supplying an API key");
             res.status(401);
             res.json({success: false, message: 'No API key provided'});
             return;
@@ -26,6 +28,7 @@ export class NumberController {
         let errors: string[] = [];
 
         if (req.body.apiKey === undefined) {
+            Log.warning("Attempt to remove a number without supplying an API key");
             res.status(401);
             res.json({success: false, message: 'No API key provided'});
             return;

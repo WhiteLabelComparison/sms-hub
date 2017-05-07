@@ -1,4 +1,5 @@
 import {Supplier} from "../suppliers/supplier";
+import {Log} from "../log";
 
 export class SendController {
 
@@ -6,6 +7,7 @@ export class SendController {
         let errors: string[] = [];
 
         if (req.body.apiKey === undefined) {
+            Log.warning("Attempt to send a message without supplying an API key");
             res.status(401);
             res.json({success: false, message: 'No API key provided'});
             return;
