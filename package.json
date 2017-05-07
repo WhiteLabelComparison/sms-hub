@@ -1,0 +1,22 @@
+{
+  "name": "sms-hub",
+  "version": "0.0.1",
+  "description": "SMS Number and Message Management",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./node_modules/nodemon/bin/nodemon.js src -e ts --exec \"npm run build-run\"",
+    "build": "tsc",
+    "build-run": "tsc && node ./dist/server.js"
+  },
+  "author": "Simon Skinner <ss@beyondcomparison.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@types/body-parser": "^1.16.3",
+    "@types/express": "^4.0.35",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "nodemon": "^1.11.0",
+    "request": "^2.81.0",
+    "typescript": "^2.3.2"
+  }
+}

@@ -1,0 +1,13 @@
+import {ApiKey} from "./app/types/api-key";
+
+export class Config {
+    // Express JS Config
+    static port: number = 7890;
+
+    // Define an Api Key for nexmo
+    static nexmo: ApiKey = {
+        key: "KEY",
+        secret: "SECRET"
+    };
+
+}
