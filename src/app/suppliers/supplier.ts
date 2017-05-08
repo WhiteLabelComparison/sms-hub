@@ -9,7 +9,7 @@ export interface Supplier {
      *
      * @param webhook - The URL that incoming text messages will be passed to
      */
-    assignNumber(webhook: string): Promise<TelephoneNumber>;
+    assignNumber(webhook: string): Promise<string>;
 
     /**
      * Sends a text message to a given telephone number and returns

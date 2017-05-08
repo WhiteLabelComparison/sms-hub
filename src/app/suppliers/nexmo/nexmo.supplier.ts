@@ -5,7 +5,7 @@ import {Config} from "../../../config";
 
 export class Nexmo implements Supplier {
 
-    assignNumber(webhook: string): Promise<TelephoneNumber> {
+    assignNumber(webhook: string): Promise<string> {
         return new Promise((res,rej) => {
             Request.get('https://rest.nexmo.com/number/search', {api_key: Config.nexmo.key, api_secret: Config.nexmo.secret, country: 'GB', features: 'SMS,VOICE', size: 1})
                 .then(result => {

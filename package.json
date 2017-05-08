@@ -4,7 +4,8 @@
   "description": "SMS Number and Message Management",
   "main": "index.js",
   "scripts": {
-    "start": "node ./node_modules/nodemon/bin/nodemon.js src -e ts --exec \"npm run build-run\"",
+    "start": "node ./dist/server.js",
+    "watch": "node ./node_modules/nodemon/bin/nodemon.js src -e ts --exec \"npm run build-run\"",
     "build": "tsc",
     "build-run": "tsc && node ./dist/server.js"
   },
@@ -16,6 +17,7 @@
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "nodemon": "^1.11.0",
+    "pg-promise": "^5.6.7",
     "request": "^2.81.0",
     "typescript": "^2.3.2"
   }
