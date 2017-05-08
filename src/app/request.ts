@@ -1,10 +1,21 @@
 import * as requestJs from 'request';
 
+/**
+ * Class used to perform simple get and post requests.
+ */
 export class Request {
 
+    /**
+     * Performs a post request to an endpoint. Returns a promise with the
+     * results from the query so it can be called asynchronous.
+     *
+     * @param endpoint - The full URL to be called
+     * @param query - An object holding all query parameters
+     *
+     * @returns {Promise<any>} - The asynchronous promise
+     */
     static get(endpoint: string, query: any = undefined): Promise<any>{
         return new Promise<any>((result,reject) => {
-
             requestJs(endpoint + this.generateQueryString(query), (err, res, body) => {
                 if (err) {
                     reject(err);
