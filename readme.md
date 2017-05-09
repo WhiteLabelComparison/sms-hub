@@ -1,5 +1,31 @@
 # SMS Hub
 
+## Config File
+
+A config TS file must be included in the /src directory. A config.ts.example file is included which can be copied and updated to store correct details. The example config file looks as below.
+
+``` ts
+import {ApiKey} from "./app/types/api-key";
+
+export class Config {
+    // Express JS Config
+    static port: number = 7890;
+
+    // Base URL for the webhooks
+    static baseWebhook:string = "";
+
+    // Details of the database connection
+    static databaseConnection:string = "postgres://smshub:smshub@localhost:7891/smshub"; // Default for Docker Image
+
+    // Define an Api Key for nexmo
+    static nexmo: ApiKey = {
+        key: "KEY",
+        secret: "SECRET"
+    };
+
+}
+```
+
 ## API Guide
 
 ### Authorisation
