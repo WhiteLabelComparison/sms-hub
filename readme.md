@@ -28,8 +28,8 @@ A successful response will look as below.
 
 ``` json
 {
-    success:true,
-    message:"Service is active"
+    "success": true,
+    "message": "Service is active"
 }
 ```
 
@@ -51,8 +51,8 @@ A successful response will look as below.
 
 ``` json
 {
-    success: true,
-    telephoneNumber: '447500123456'
+    "success": true,
+    "telephoneNumber": "447500123456"
 }
 ```
 
@@ -74,8 +74,8 @@ A successful response will look as below.
 
 ``` json
 {
-    success: true,
-    telephoneNumber: '447500123456'
+    "success": true,
+    "telephoneNumber": "447500123456"
 }
 ```
 
