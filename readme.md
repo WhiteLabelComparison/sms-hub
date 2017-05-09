@@ -150,21 +150,21 @@ A successful response will look as below.
 
 ``` json
 {
-    success: true,
-    data: [
+    "success": true,
+    "data": [
         {
-            outbound_number: '447500123456',
-            inbound_number: '447500999999',
-            content: 'This is an outbound text message',
-            message_count: 1,
-            created_at: '2017-05-09T01:32:36.000Z',
+            "outbound_number": "447500123456",
+            "inbound_number": "447500999999",
+            "content": "This is an outbound text message",
+            "message_count": 1,
+            "created_at": "2017-05-09T01:32:36.000Z",
         },
         {
-            outbound_number: '447500999999',
-            inbound_number: '447500123456',
-            content: 'This is an inbound text message',
-            message_count: 0,
-            created_at: '2017-05-09T01:37:42.000Z',
+            "outbound_number": "447500999999",
+            "inbound_number": "447500123456",
+            "content": "This is an inbound text message",
+            "message_count": 0,
+            "created_at": "2017-05-09T01:37:42.000Z",
         }
     ]
 }
@@ -191,21 +191,21 @@ A successful response will look as below.
 
 ``` json
 {
-    success: true,
-    data: [
+    "success": true,
+    "data": [
         {
-            outbound_number: '447500123456',
-            inbound_number: '447500999999',
-            content: 'This is an outbound text message',
-            message_count: 1,
-            created_at: '2017-05-09T01:32:36.000Z',
+            "outbound_number": "447500123456",
+            "inbound_number": "447500999999",
+            "content": "This is an outbound text message",
+            "message_count": 1,
+            "created_at": "2017-05-09T01:32:36.000Z",
         },
         {
-            outbound_number: '447500999999',
-            inbound_number: '447500123456',
-            content: 'This is an inbound text message',
-            message_count: 0,
-            created_at: '2017-05-09T01:37:42.000Z',
+            "outbound_number": "447500999999",
+            "inbound_number": "447500123456",
+            "content": "This is an inbound text message",
+            "message_count": 0,
+            "created_at": "2017-05-09T01:37:42.000Z",
         }
     ]
 }
