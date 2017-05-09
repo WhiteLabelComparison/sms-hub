@@ -60,7 +60,8 @@ CREATE TABLE smshub.conversations
     outbound_number VARCHAR(15) NOT NULL,
     inbound_number VARCHAR(15) NOT NULL,
     content TEXT NOT NULL,
-    message_count int DEFAULT 0 NOT NULL
+    message_count int DEFAULT 0 NOT NULL,
+    created_at TIMESTAMP(0) DEFAULT NOW() NULL
 );
 CREATE UNIQUE INDEX conversations_id_uindex ON smshub.conversations (id);
 CREATE INDEX conversations_outbound_number_index ON smshub.conversations (outbound_number);

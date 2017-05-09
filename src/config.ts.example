@@ -4,9 +4,11 @@ export class Config {
     // Express JS Config
     static port: number = 7890;
 
+    // Base URL for the webhooks
+    static baseWebhook:string = "";
 
     // Details of the database connection
-    static databaseConnection: "postgres://smshub:smshub@localhost:7891/smshub"; // Default for Docker Image
+    static databaseConnection:string = "postgres://smshub:smshub@localhost:7891/smshub"; // Default for Docker Image
 
     // Define an Api Key for nexmo
     static nexmo: ApiKey = {

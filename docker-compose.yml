@@ -1,0 +1,19 @@
+version: "3"
+services:
+  smshub-server:
+    container_name: smshub-server
+    build:
+      context: .
+    ports:
+      - 7890:7890
+  smshub-postgres:
+    container_name: smshub-postgres
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    ports:
+      - 7891:5432
+    environment:
+      POSTGRES_USER: smshub
+      POSTGRES_PASSWORD: smshub
+      POSTGRES_DB: smshub

@@ -1,5 +1,6 @@
 import {Supplier} from "../suppliers/supplier";
 import {Log} from "../log";
+import {Database} from "../../database";
 
 export class SendController {
 
@@ -31,14 +32,43 @@ export class SendController {
             return;
         }
 
+        Log.debug("Sending message to " + req.body.to + " from " + req.body.from + " using API key " + req.body.apiKey);
         supplier.sendMessage(
                 req.body.from,
                 req.body.to,
                 req.body.message
             )
-            .then(response => res.json({success: true, messageCount: response}))
-            .catch(error => res.json({success: false, errors: error}));
+            .then(response => {
+                Log.debug("Message sent to " + req.body.to + " from " + req.body.from + " using API key " + req.body.apiKey);
 
+                this.saveMessage(req.body.to, req.body.from, req.body.message, response)
+                    .then(messageId => {
+                        Log.debug("Message to " + req.body.to + " from " + req.body.from + " saved to conversation");
+                        res.json({success: true, messageCount: response});
+                    })
+                    .catch(error => {
+                        Log.error("Error sending message, '" + error.message + "'");
+                        res.json({success: false, errors: error})
+                    });
+
+            })
+            .catch(error => {
+                Log.error("Error sending message, '" + error.message + "'");
+                res.json({success: false, errors: error})
+            });
+
+    }
+
+    static saveMessage(to: string, from: string, message: string, count: number) {
+        Log.debug("Saving message to " + to + " from " + from);
+
+        let db = new Database().db;
+        return db.one("INSERT INTO conversations (outbound_number, inbound_number, content, message_count) VALUES($[from], $[to], $[message], $[count]) RETURNING id", {
+            to: to,
+            from: from,
+            message: message,
+            count: count
+        });
     }
 
 }

@@ -4,6 +4,8 @@ import {Supplier} from "./suppliers/supplier";
 import {SendController} from "./controllers/send.controller";
 import {NumberController} from "./controllers/number.controller";
 import {Log} from "./log";
+import {ReceiveController} from "./controllers/receive.controller";
+import {ConversationController} from "./controllers/conversation.controller";
 
 /**
  * Class for handling the web server and all routing.
@@ -36,8 +38,11 @@ export class Server {
         });
 
         this.app.post('/send/message', (req, res) => SendController.message(req,res,this.supplier) );
+        this.app.post('/receive/:number', (req, res) => ReceiveController.message(req,res,this.supplier) );
         this.app.post('/number', (req, res) => NumberController.assign(req,res,this.supplier) );
         this.app.delete('/number/:number', (req, res) => NumberController.cancel(req,res,this.supplier) );
+        this.app.get('/conversation', (req, res) => ConversationController.all(req,res) );
+        this.app.get('/conversation/:number', (req, res) => ConversationController.with(req,res) );
     }
 
     /**
@@ -56,6 +61,6 @@ export class Server {
      * Spools up the server on the required port.
      */
     private startServer() {
-        this.app.listen(this.port, () => Log.notice('Server now running on port ' + this.port));
+        this.app.listen(this.port, () => Log.info('Server now running on port ' + this.port));
     }
 }

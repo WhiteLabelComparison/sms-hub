@@ -59,4 +59,22 @@ export class Log {
         this.output({timestamp: new Date(), type: 'notice', message: message, color: "\x1b[37m"} as LogMessage);
     }
 
+    /**
+     * Logs a simple debug message
+     *
+     * @param message - A string holding the message to be displayed.
+     */
+    static debug(message: string) {
+        this.output({timestamp: new Date(), type: 'debug', message: message, color: "\x1b[35m"} as LogMessage);
+    }
+
+    /**
+     * Logs a simple notice
+     *
+     * @param message - A string holding the message to be displayed.
+     */
+    static info(message: string) {
+        this.output({timestamp: new Date(), type: 'info', message: message, color: "\x1b[36m"} as LogMessage);
+    }
+
 }

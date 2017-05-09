@@ -1,4 +1,4 @@
-import {TelephoneNumber} from "../types/telephone-number";
+import {Message} from "../types/message";
 
 /** Interface to define a supplier and the required functions */
 export interface Supplier {
@@ -21,13 +21,18 @@ export interface Supplier {
      */
     sendMessage(from: string, to: string, message: string): Promise<number>;
 
-    receive();
+    /**
+     * Parses the body from an inbound message so it can be stored.
+     *
+     * @param request - The object sent from the GET / POST request
+     */
+    receive(request: any): Message;
 
     /**
      * Deletes a telephone number that is being use for SMS functions.
      *
-     * @param id - The ID that has been given to reference to the number
+     * @param number - The ID that has been given to reference to the number
      */
-    deleteNumber(id: string): Promise<boolean>;
+    deleteNumber(number: string): Promise<boolean>;
 
 }
