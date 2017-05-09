@@ -43,7 +43,7 @@ export class ConversationController {
             WHERE 
                 (outbound_number = $[from] AND inbound_number = $[to])
                 OR (inbound_number = $[from] AND outbound_number = $[to])
-            ORDER BY timestamp ASC;
+            ORDER BY created_at ASC;
             `, {
                 from: req.query.number,
                 to: req.params.number
