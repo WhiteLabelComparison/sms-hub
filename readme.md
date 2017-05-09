@@ -12,7 +12,7 @@ export class Config {
     static port: number = 7890;
 
     // Base URL for the webhooks
-    static baseWebhook:string = "";
+    static baseWebhook:string = "https://smshub.domainname.com"; // Must be changed to the base webhook url
 
     // Details of the database connection
     static databaseConnection:string = "postgres://smshub:smshub@localhost:7891/smshub"; // Default for Docker Image
