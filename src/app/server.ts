@@ -38,7 +38,7 @@ export class Server {
         });
 
         this.app.post('/send/message', (req, res) => SendController.message(req,res,this.supplier) );
-        this.app.post('/receive/:number', (req, res) => ReceiveController.message(req,res,this.supplier) );
+        this.app.get('/receive/:number', (req, res) => ReceiveController.message(req,res,this.supplier) );
         this.app.post('/number', (req, res) => NumberController.assign(req,res,this.supplier) );
         this.app.delete('/number/:number', (req, res) => NumberController.cancel(req,res,this.supplier) );
         this.app.get('/conversation', (req, res) => ConversationController.all(req,res) );

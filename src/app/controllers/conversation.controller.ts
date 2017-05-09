@@ -11,13 +11,13 @@ export class ConversationController {
                 outbound_number AS from,
                 inbound_number AS to,
                 content AS message,
-                message_count AS cost
-                -- created_at AS timestamp
+                message_count AS cost,
+                created_at AS timestamp
             FROM conversations
             WHERE 
                 outbound_number = $[from]
                 OR inbound_number = $[from]
-            ORDER BY id;
+            ORDER BY created_at ASC;
             `, {
                 from: req.query.number
             })
@@ -37,13 +37,13 @@ export class ConversationController {
                 outbound_number AS from,
                 inbound_number AS to,
                 content AS message,
-                message_count AS cost
-                -- created_at AS timestamp
+                message_count AS cost,
+                created_at AS timestamp
             FROM conversations
             WHERE 
                 (outbound_number = $[from] AND inbound_number = $[to])
                 OR (inbound_number = $[from] AND outbound_number = $[to])
-            ORDER BY id;
+            ORDER BY timestamp ASC;
             `, {
                 from: req.query.number,
                 to: req.params.number

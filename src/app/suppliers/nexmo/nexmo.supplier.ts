@@ -64,6 +64,7 @@ export class Nexmo implements Supplier {
             to: request.to,
             from: request.msisdn,
             message: request.text,
+            timestamp: request['message-timestamp']
         } as Message;
     }
 
