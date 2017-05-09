@@ -170,7 +170,7 @@ A successful response will look as below.
 }
 ```
 
-When the text message was incoming the outbound number is the number of the person that sent the message and the inbound number is the number assigned to the API key owner. The cost will also be set to 0 for all inbound messages.
+When the text message was incoming the `outbound_number` is the number of the person that sent the message and the inbound number is the number assigned to the API key owner. The `message_count` will also be set to 0 for all inbound messages.
 
 #### View a conversation
 
@@ -211,5 +211,5 @@ A successful response will look as below.
 }
 ```
 
-When the text message was incoming the outbound number is the number of the person that sent the message and the inbound number is the number assigned to the API key owner. The cost will also be set to 0 for all inbound messages.
+When the text message was incoming the `outbound_number` is the number of the person that sent the message and the inbound number is the number assigned to the API key owner. The `message_count` will also be set to 0 for all inbound messages.
 
