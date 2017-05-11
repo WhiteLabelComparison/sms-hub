@@ -1,32 +1,48 @@
-import {Supplier} from "../suppliers/supplier";
 import {Log} from "../log";
 import {Database} from "../../database";
+import {SmsSupplier} from "../suppliers/sms-supplier";
+import {EmailSupplier} from "../suppliers/email-supplier";
+import {Validation} from "../validation";
 
 export class SendController {
 
-    static message(req,res,supplier: Supplier) {
-        let errors: string[] = [];
+    static email(req,res,supplier: EmailSupplier) {
+        let errors: string[]|boolean = Validation.checkFieldsIn(req.body, ['message','subject','from','to']);
 
-        if (req.body.apiKey === undefined) {
-            Log.warning("Attempt to send a message without supplying an API key");
-            res.status(401);
-            res.json({success: false, message: 'No API key provided'});
+        if (errors) {
+            res.status(400);
+            res.json({success: false, errors: errors});
             return;
         }
 
-        if (req.body.message === undefined || req.body.message.length == 0) {
-            errors.push("No message was defined");
-        }
+        Log.debug("Sending email to " + req.body.to + " from " + req.body.from + " using API key " + req.body.apiKey);
+        supplier.sendMessage(
+            req.body.from,
+            req.body.to,
+            req.body.subject,
+            req.body.message
+        ).then(response => {
+            Log.debug("Email sent to " + req.body.to + " from " + req.body.from + " using API key " + req.body.apiKey);
+            this.saveMail(req.body.to, req.body.from, req.body.subject, req.body.message, 1)
+                .then(messageId => {
+                    Log.debug("Email to " + req.body.to + " from " + req.body.from + " saved to conversation");
+                    res.json({success: true, messageCount: 1});
+                })
+                .catch(error => {
+                    Log.error("Error sending message, '" + error.message + "'");
+                    res.json({success: false, errors: error})
+                });
+        })
+        .catch(error => {
+            Log.error("Error sending message, '" + error.message + "'");
+            res.json({success: false, errors: error})
+        });
+    }
 
-        if (req.body.from === undefined || req.body.from.length == 0) {
-            errors.push("No 'from' telephone number was defined");
-        }
+    static message(req,res,supplier: SmsSupplier) {
+        let errors: string[]|boolean = Validation.checkFieldsIn(req.body, ['message','from','to']);
 
-        if (req.body.to === undefined || req.body.to.length == 0) {
-            errors.push("No 'to' telephone number was defined");
-        }
-
-        if (errors.length > 0) {
+        if (errors) {
             res.status(400);
             res.json({success: false, errors: errors});
             return;
@@ -59,11 +75,24 @@ export class SendController {
 
     }
 
+    static saveMail(to: string, from: string, subject: string, message: string, count: number) {
+        Log.debug("Saving email to " + to + " from " + from);
+
+        let db = new Database().db;
+        return db.one("INSERT INTO conversations (type, outbound_number, inbound_number, subject, content, message_count) VALUES('email', $[from], $[to], $[subject], $[message], $[count]) RETURNING id", {
+            to: to,
+            from: from,
+            subject: subject,
+            message: message,
+            count: count
+        });
+    }
+
     static saveMessage(to: string, from: string, message: string, count: number) {
         Log.debug("Saving message to " + to + " from " + from);
 
         let db = new Database().db;
-        return db.one("INSERT INTO conversations (outbound_number, inbound_number, content, message_count) VALUES($[from], $[to], $[message], $[count]) RETURNING id", {
+        return db.one("INSERT INTO conversations (type, outbound_number, inbound_number, content, message_count) VALUES('message',$[from], $[to], $[message], $[count]) RETURNING id", {
             to: to,
             from: from,
             message: message,

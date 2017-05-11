@@ -1,21 +1,42 @@
-import {Supplier} from "../suppliers/supplier";
 import {Log} from "../log";
 import {Database} from "../../database";
 import {Config} from "../../config";
+import {SmsSupplier} from "../suppliers/sms-supplier";
+import {EmailSupplier} from "../suppliers/email-supplier";
+import {Validation} from "../validation";
 
-export class NumberController {
+export class AssignController {
 
-    static assign(req,res,supplier: Supplier) {
-        let errors: string[] = [];
+    static assignEmail(req, res, supplier: EmailSupplier) {
+        let errors: string[]|boolean = Validation.checkFieldsIn(req.body, ['domain']);
 
-        if (req.body.apiKey === undefined) {
-            Log.warning("Attempt to assign a number without supplying an API key");
-            res.status(401);
-            res.json({success: false, message: 'No API key provided'});
+        if (errors) {
+            res.status(400);
+            res.json({success: false, errors: errors});
             return;
         }
 
-        if (errors.length > 0) {
+        supplier.assignInbound(Config.baseWebhook, req.body.domain)
+            .then(response => {
+                res.json({success: true, message: 'Domain has been assigned'});
+            })
+            .catch(error => {
+                res.json({success: false, errors: error})
+            });
+
+
+    }
+
+    static cancelEmail(req,res,supplier: EmailSupplier) {
+
+    }
+
+
+
+    static assignNumber(req,res,supplier: SmsSupplier) {
+        let errors: string[]|boolean = Validation.checkFieldsIn(req.body, []);
+
+        if (errors) {
             res.status(400);
             res.json({success: false, errors: errors});
             return;
@@ -40,7 +61,7 @@ export class NumberController {
             });
     }
 
-    static cancel(req,res,supplier: Supplier) {
+    static cancelNumber(req,res,supplier: SmsSupplier) {
         let errors: string[] = [];
 
         if (req.body.apiKey === undefined) {

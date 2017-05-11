@@ -16,4 +16,9 @@ export class Config {
         secret: "SECRET"
     };
 
+    // Define an Api Key for mandrill
+    static mandrill: ApiKey = {
+        key: "KEY"
+    };
+
 }

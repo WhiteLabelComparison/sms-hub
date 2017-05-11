@@ -1,7 +1,7 @@
 import {Message} from "../types/message";
 
 /** Interface to define a supplier and the required functions */
-export interface Supplier {
+export interface SmsSupplier {
 
     /**
      * Generates a telephone number that will be used for all SMS

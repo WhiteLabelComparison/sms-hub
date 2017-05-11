@@ -57,8 +57,10 @@ CREATE TRIGGER trigger_numbers_genid BEFORE INSERT ON numbers FOR EACH ROW EXECU
 CREATE TABLE conversations
 (
     id TEXT PRIMARY KEY,
-    outbound_number VARCHAR(15) NOT NULL,
-    inbound_number VARCHAR(15) NOT NULL,
+    type VARCHAR(15) NOT NULL,
+    outbound_number VARCHAR(255) NOT NULL,
+    inbound_number VARCHAR(255) NOT NULL,
+    subject TEXT,
     content TEXT NOT NULL,
     message_count int DEFAULT 0 NOT NULL,
     created_at TIMESTAMP(0) DEFAULT NOW() NULL
@@ -66,6 +68,7 @@ CREATE TABLE conversations
 CREATE UNIQUE INDEX conversations_id_uindex ON conversations (id);
 CREATE INDEX conversations_outbound_number_index ON conversations (outbound_number);
 CREATE INDEX conversations_inbound_number_index ON conversations (inbound_number);
+CREATE INDEX conversations_type_index ON conversations (type);
 
 CREATE TRIGGER trigger_conversations_genid BEFORE INSERT ON conversations FOR EACH ROW EXECUTE PROCEDURE unique_short_id();
 

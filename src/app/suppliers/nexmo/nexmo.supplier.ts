@@ -1,9 +1,9 @@
-import {Supplier} from "../supplier";
+import {SmsSupplier} from "../sms-supplier";
 import {Request} from "../../request";
 import {Config} from "../../../config";
 import {Message} from "../../types/message";
 
-export class Nexmo implements Supplier {
+export class NexmoSupplier implements SmsSupplier {
 
     /**
      * Generates a telephone number that will be used for all SMS
@@ -18,7 +18,7 @@ export class Nexmo implements Supplier {
                     let chosenNumber = JSON.parse(result.body).numbers[0].msisdn;
                     Request.post('https://rest.nexmo.com/number/buy', {api_key: Config.nexmo.key, api_secret: Config.nexmo.secret, country: 'GB', msisdn: chosenNumber})
                         .then(result => {
-                            Request.post('https://rest.nexmo.com/number/update', {api_key: Config.nexmo.key, api_secret: Config.nexmo.secret, country: 'GB', msisdn: chosenNumber, moHttpUrl: webhook + "/receive/" + chosenNumber})
+                            Request.post('https://rest.nexmo.com/number/update', {api_key: Config.nexmo.key, api_secret: Config.nexmo.secret, country: 'GB', msisdn: chosenNumber, moHttpUrl: webhook + "/receive/message/" + chosenNumber})
                                 .then(result => res(chosenNumber))
                                 .catch(err => rej(err));
                         })

@@ -1,4 +1,4 @@
 export class ApiKey {
     key: string;
-    secret: string;
+    secret?: string;
 }

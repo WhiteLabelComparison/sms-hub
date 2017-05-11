@@ -28,12 +28,15 @@ export class Request {
     }
 
 
-
     static post(endpoint: string, query: any = undefined): Promise<any> {
         return new Promise((result,reject) => {
             requestJs({
                 uri: endpoint + this.generateQueryString(query),
+                body: JSON.stringify(query),
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }, (err, res, body) => {
                 if (err) {
                     reject(err);
