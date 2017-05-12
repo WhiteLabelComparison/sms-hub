@@ -38,7 +38,7 @@ export class ReceiveController {
             });
     }
 
-    static saveEmail(to: string, from: string, message: string, subject: string, timestamp: string) {
+    static saveEmail(to: string, from: string, subject: string, message: string, timestamp: string) {
         Log.debug("Saving message to " + to + " from " + from);
 
         let db = new Database().db;

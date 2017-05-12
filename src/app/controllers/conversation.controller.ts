@@ -3,6 +3,33 @@ import {Log} from "../log";
 
 export class ConversationController {
 
+    static all(req,res) {
+        let db = new Database().db;
+
+        db.query(`
+            SELECT
+                type AS type,
+                outbound_number AS from,
+                inbound_number AS to,
+                subject as subject,
+                content AS message,
+                message_count AS cost,
+                created_at AS timestamp
+            FROM conversations
+            WHERE inbound_number = $[number] OR inbound_number = $[address]
+            ORDER BY created_at DESC;
+            `, {
+            number: req.query.number,
+            address: req.query.address
+        })
+            .then(items => res.json({success: true, data: items}))
+            .catch(error => {
+                Log.error("Error adding number, '" + error.message + "'");
+                res.json({success: false, errors: error})
+            });
+
+    }
+
     static allAddresses(req,res) {
         let db = new Database().db;
 
@@ -18,7 +45,7 @@ export class ConversationController {
             WHERE 
                 outbound_number = $[from]
                 OR inbound_number = $[from]
-            ORDER BY created_at ASC;
+            ORDER BY created_at DESC;
             `, {
             from: req.query.address
         })
@@ -45,7 +72,7 @@ export class ConversationController {
             WHERE 
                 (outbound_number = $[from] AND inbound_number = $[to])
                 OR (inbound_number = $[from] AND outbound_number = $[to])
-            ORDER BY created_at ASC;
+            ORDER BY created_at DESC;
             `, {
             from: req.query.address,
             to: req.params.address

@@ -49,6 +49,8 @@ export class Server {
         this.app.post('/assign/number', this.checkApiKey, (req, res) => AssignController.assignNumber(req,res,this.smsSupplier) );
         this.app.delete('/assign/number/:number', (req, res) => AssignController.cancelNumber(req,res,this.smsSupplier) );
 
+        this.app.get('/conversation', this.checkApiKey, (req, res) => ConversationController.all(req,res) );
+
         this.app.get('/conversation/messages', this.checkApiKey, (req, res) => ConversationController.allNumbers(req,res) );
         this.app.get('/conversation/messages/:number', this.checkApiKey, (req, res) => ConversationController.withNumber(req,res) );
         this.app.get('/conversation/emails', this.checkApiKey, (req, res) => ConversationController.allAddresses(req,res) );
