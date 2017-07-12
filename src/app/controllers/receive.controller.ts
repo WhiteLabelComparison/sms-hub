@@ -8,10 +8,6 @@ import * as aws from 'aws-sdk';
 
 export class ReceiveController {
 
-
-    //constructor() {
-    //}
-
     static mail(req, res, supplier: EmailSupplier) {
 
         Log.debug("Inbound Email detected");
