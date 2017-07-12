@@ -14,7 +14,11 @@ export class ConversationController {
                 subject as subject,
                 content AS message,
                 message_count AS cost,
-                created_at AS timestamp
+                created_at AS timestamp,
+                (select array_to_json(array_agg(a)) from (
+                    select filename, url
+                    from conversation_attachments where conversation_id = conversations.id
+                ) as a) as attachments
             FROM conversations
             WHERE inbound_number = $[number] OR inbound_number = $[address]
             ORDER BY created_at DESC;
@@ -40,7 +44,11 @@ export class ConversationController {
                 subject as subject,
                 content AS message,
                 message_count AS cost,
-                created_at AS timestamp
+                created_at AS timestamp,
+                (select array_to_json(array_agg(a)) from (
+                    select filename, url
+                    from conversation_attachments where conversation_id = conversations.id
+                ) as a) as attachments
             FROM conversations
             WHERE 
                 outbound_number = $[from]
@@ -59,7 +67,6 @@ export class ConversationController {
 
     static withAddress(req,res) {
         let db = new Database().db;
-
         db.query(`
             SELECT
                 outbound_number AS from,
@@ -67,7 +74,11 @@ export class ConversationController {
                 content AS message,
                 subject as subject,
                 message_count AS cost,
-                created_at AS timestamp
+                created_at AS timestamp,
+                (select array_to_json(array_agg(a)) from (
+                    select filename, url
+                    from conversation_attachments where conversation_id = conversations.id
+                ) as a) as attachments
             FROM conversations
             WHERE 
                 (outbound_number = $[from] AND inbound_number = $[to])

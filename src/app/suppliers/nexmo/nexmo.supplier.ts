@@ -80,7 +80,8 @@ export class NexmoSupplier implements SmsSupplier {
                 country: 'GB', msisdn: number
             })
                 .then(result => {
-                    res("Number was Deleted");
+                    return true;
+                    //res("Number was Deleted");
                 })
                 .catch(err => rej(err));
         });

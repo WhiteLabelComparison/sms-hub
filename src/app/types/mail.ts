@@ -5,4 +5,10 @@ export class Mail {
     message: string;
     cost?: number;
     timestamp?: string;
+    attachments: MailAttachment[]
+}
+
+export class MailAttachment {
+    filename: string
+    content: string
 }

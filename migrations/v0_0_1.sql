@@ -72,3 +72,16 @@ CREATE INDEX conversations_type_index ON conversations (type);
 
 CREATE TRIGGER trigger_conversations_genid BEFORE INSERT ON conversations FOR EACH ROW EXECUTE PROCEDURE unique_short_id();
 
+-- Conversation attachments table
+CREATE TABLE conversation_attachments
+(
+  id TEXT PRIMARY KEY,
+  conversation_id TEXT,
+  filename VARCHAR(255) NOT NULL,
+  url VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP(0) DEFAULT NOW() NULL,
+  CONSTRAINT conversations_attachments_id_fk FOREIGN KEY (conversation_id) REFERENCES conversations (id) ON DELETE SET NULL ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX conversation_attachments_id_uindex ON conversation_attachments (id);
+CREATE INDEX conversation_attachments_converstation_id ON conversation_attachments (conversation_id);
+CREATE TRIGGER trigger_conversation_attachments_genid BEFORE INSERT on conversation_attachments FOR EACH ROW EXECUTE PROCEDURE unique_short_id();
