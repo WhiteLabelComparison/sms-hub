@@ -90,10 +90,10 @@ export class ReceiveController {
                                 "filename": file.filename,
                                 "url": "https://s3.eu-west-2.amazonaws.com/".concat(Config.bucket, '/', remotePath)
                             }
-                        ).then(() => {})
-                        .catch((err) => {
-                            Log.error("Failed to insert attachment");
-                        });
+                        ).then(() => {
+                            //@todo do something
+                        })
+                        .catch((err) => Log.error("Failed to insert attachment"));
                     });
                 }
             }
