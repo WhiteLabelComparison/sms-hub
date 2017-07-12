@@ -21,4 +21,14 @@ export class Config {
         key: "KEY"
     };
 
+    // Define an Api Key for AWS 
+    static aws: ApiKey = {
+        key: "KEY",
+        secret: "SECRET"
+        
+    }
+
+    // Define an AWS S3 bucket name
+    static bucket: string = "BUCKET";
+
 }
