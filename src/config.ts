@@ -1,7 +1,7 @@
 import { ApiKey } from './app/types/api-key'
 
 export class Config {
-  static port = (process.env.port || undefined)
+  static port = (process.env.PORT || undefined)
   static baseWebhook: string = (process.env.BASE_WEBHOOK || undefined) // Must be changed to the base webhook url
   static databaseConnection: string = (process.env.DATABASE_CONNECTION || undefined)
 

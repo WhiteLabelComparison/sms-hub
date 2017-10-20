@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Config = (function () {
     function Config() {
     }
-    Config.port = (process.env.port || undefined);
+    Config.port = (process.env.PORT || undefined);
     Config.baseWebhook = (process.env.BASE_WEBHOOK || undefined);
     Config.databaseConnection = (process.env.DATABASE_CONNECTION || undefined);
     Config.nexmo = {
