@@ -20,7 +20,7 @@ export class Server {
   constructor (private port: number = 7890, private smsSupplier: SmsSupplier, private emailSupplier: EmailSupplier) {
     this.app = express ()
 
-    this.app.use (bodyParser.urlencoded ({extended: true}))
+    this.app.use (bodyParser.urlencoded ({extended: true, limit: '500mb'}))
     this.app.use (bodyParser.json ({limit: '500mb'}))
 
     this.setCorsHeaders ()

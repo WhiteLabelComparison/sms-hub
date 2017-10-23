@@ -14,7 +14,7 @@ var Server = (function () {
         this.smsSupplier = smsSupplier;
         this.emailSupplier = emailSupplier;
         this.app = express();
-        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(bodyParser.urlencoded({ extended: true, limit: '500mb' }));
         this.app.use(bodyParser.json({ limit: '500mb' }));
         this.setCorsHeaders();
         this.setRoutes();
