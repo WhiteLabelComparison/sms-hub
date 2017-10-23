@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express = require("express");
 var bodyParser = require("body-parser");
+var express = require("express");
+var assign_controller_1 = require("./controllers/assign.controller");
+var conversation_controller_1 = require("./controllers/conversation.controller");
+var receive_controller_1 = require("./controllers/receive.controller");
 var send_controller_1 = require("./controllers/send.controller");
 var log_1 = require("./log");
-var receive_controller_1 = require("./controllers/receive.controller");
-var conversation_controller_1 = require("./controllers/conversation.controller");
-var assign_controller_1 = require("./controllers/assign.controller");
 var Server = (function () {
     function Server(port, smsSupplier, emailSupplier) {
         if (port === void 0) { port = 7890; }
@@ -15,7 +15,7 @@ var Server = (function () {
         this.emailSupplier = emailSupplier;
         this.app = express();
         this.app.use(bodyParser.urlencoded({ extended: true }));
-        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.json({ limit: '500mb' }));
         this.setCorsHeaders();
         this.setRoutes();
         this.startServer();
@@ -41,7 +41,7 @@ var Server = (function () {
     };
     Server.prototype.checkApiKey = function (req, res, next) {
         if (req.body.apiKey === undefined && req.query.apiKey === undefined) {
-            log_1.Log.warning("Attempt to send a message without supplying an API key");
+            log_1.Log.warning('Attempt to send a message without supplying an API key');
             res.status(401);
             res.json({ success: false, message: 'No API key provided' });
             return;
@@ -52,9 +52,9 @@ var Server = (function () {
     };
     Server.prototype.setCorsHeaders = function () {
         this.app.use(function (req, res, next) {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-            res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept, Cache-Control");
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+            res.header('Access-Control-Allow-Headers', 'Authorization, Origin, X-Requested-With, Content-Type, Accept, Cache-Control');
             next();
         });
     };
