@@ -8,21 +8,21 @@ var MandrillSupplier = (function () {
     MandrillSupplier.prototype.assignInbound = function (webhook, domain) {
         return new Promise(function (res, rej) {
             request_1.Request.post('https://mandrillapp.com/api/1.0/inbound/add-domain.json', {
-                "key": config_1.Config.mandrill.key,
-                "domain": domain
+                'key': config_1.Config.mandrill.key,
+                'domain': domain
             })
                 .then(function (response) {
                 console.log({
-                    "key": config_1.Config.mandrill.key,
-                    "domain": domain,
-                    "pattern": "*",
-                    "url": webhook + "/receive/email/" + domain
+                    'key': config_1.Config.mandrill.key,
+                    'domain': domain,
+                    'pattern': '*',
+                    'url': webhook + '/receive/email/' + domain
                 });
                 request_1.Request.post('https://mandrillapp.com/api/1.0/inbound/add-route.json', {
-                    "key": config_1.Config.mandrill.key,
-                    "domain": domain,
-                    "pattern": "*",
-                    "url": webhook + "/receive/email"
+                    'key': config_1.Config.mandrill.key,
+                    'domain': domain,
+                    'pattern': '*',
+                    'url': webhook + '/receive/email'
                 })
                     .then(function (response) {
                     res(response);
@@ -57,25 +57,25 @@ var MandrillSupplier = (function () {
         if (mailMessage.attachments) {
             for (var i in mailMessage.attachments) {
                 attachments.push({
-                    "filename": mailMessage.attachments[i].name,
-                    "content": mailMessage.attachments[i].content
+                    'filename': mailMessage.attachments[i].name,
+                    'content': mailMessage.attachments[i].base64 ? Buffer.from(mailMessage.attachments[i].content.toString(), 'base64') : mailMessage.attachments[i].content
                 });
             }
         }
         if (mailMessage.images) {
             for (var i in mailMessage.images) {
                 attachments.push({
-                    "filename": mailMessage.images[i].name,
-                    "content": mailMessage.images[i].content
+                    'filename': mailMessage.images[i].name,
+                    'content': mailMessage.images[i].content
                 });
             }
         }
         return {
-            "to": mailMessage.email,
-            "from": mailMessage.from_email,
-            "subject": mailMessage.subject,
-            "message": mailMessage.html ? mailMessage.html : mailMessage.text,
-            "attachments": attachments
+            'to': mailMessage.email,
+            'from': mailMessage.from_email,
+            'subject': mailMessage.subject,
+            'message': mailMessage.html ? mailMessage.html : mailMessage.text,
+            'attachments': attachments
         };
     };
     MandrillSupplier.prototype.deleteInbound = function (number) {
