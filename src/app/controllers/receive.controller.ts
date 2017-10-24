@@ -2,6 +2,7 @@ import * as aws from 'aws-sdk'
 import { Config } from '../../config'
 import { Database } from '../../database'
 import { Log } from '../log'
+import { Request } from '../request'
 import { EmailSupplier } from '../suppliers/email-supplier'
 import { SmsSupplier } from '../suppliers/sms-supplier'
 import { MailAttachment } from '../types/mail'
@@ -20,6 +21,30 @@ export class ReceiveController {
 
     this.saveEmail (receivedMessage.to, receivedMessage.from, receivedMessage.subject, receivedMessage.message, receivedMessage.timestamp, receivedMessage.attachments)
     .then (messageId => res.json ({success: true, message: 'Email has been saved.'}))
+    .then (() => {
+      let db = new Database ().db
+      db.one (`
+        SELECT
+        CASE
+        WHEN
+                COUNT((SELECT apikeys.webhook_url AS url FROM numbers LEFT JOIN apikeys ON apikeys.id = numbers.apikey_id WHERE numbers.number = $[to] LIMIT 1)) > 0
+        THEN
+                (SELECT apikeys.webhook_url AS url FROM numbers LEFT JOIN apikeys ON apikeys.id = numbers.apikey_id WHERE numbers.number = $[to] LIMIT 1)
+        ELSE
+                NULL
+        END AS url
+      `, {
+        to: receivedMessage.to
+      })
+      .then (result => {
+        if (result.url && result.url !== null) {
+          Request.post (result.url + '/email', {
+            to: receivedMessage.to,
+            from: receivedMessage.from
+          })
+        }
+      })
+    })
     .catch (error => {
       Log.error ('Error sending message, \'' + error.message + '\'')
       res.json ({success: false, errors: error})
@@ -35,6 +60,30 @@ export class ReceiveController {
 
     this.saveMessage (receivedMessage.to, receivedMessage.from, receivedMessage.message, receivedMessage.timestamp)
     .then (messageId => res.json ({success: true, message: 'Message has been saved.'}))
+    .then (() => {
+      let db = new Database ().db
+      db.one (`
+        SELECT
+        CASE
+        WHEN
+                COUNT((SELECT apikeys.webhook_url AS url FROM numbers LEFT JOIN apikeys ON apikeys.id = numbers.apikey_id WHERE numbers.number = $[to] LIMIT 1)) > 0
+        THEN
+                (SELECT apikeys.webhook_url AS url FROM numbers LEFT JOIN apikeys ON apikeys.id = numbers.apikey_id WHERE numbers.number = $[to] LIMIT 1)
+        ELSE
+                NULL
+        END AS url
+      `, {
+        to: receivedMessage.to
+      })
+      .then (result => {
+        if (result.url && result.url !== null) {
+          Request.post (result.url + '/email', {
+            to: receivedMessage.to,
+            from: receivedMessage.from
+          })
+        }
+      })
+    })
     .catch (error => {
       Log.error ('Error sending message, \'' + error.message + '\'')
       res.json ({success: false, errors: error})

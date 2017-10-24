@@ -4,6 +4,7 @@ var aws = require("aws-sdk");
 var config_1 = require("../../config");
 var database_1 = require("../../database");
 var log_1 = require("../log");
+var request_1 = require("../request");
 var ReceiveController = (function () {
     function ReceiveController() {
     }
@@ -16,6 +17,20 @@ var ReceiveController = (function () {
         }
         this.saveEmail(receivedMessage.to, receivedMessage.from, receivedMessage.subject, receivedMessage.message, receivedMessage.timestamp, receivedMessage.attachments)
             .then(function (messageId) { return res.json({ success: true, message: 'Email has been saved.' }); })
+            .then(function () {
+            var db = new database_1.Database().db;
+            db.one("\n        SELECT\n        CASE\n        WHEN\n                COUNT((SELECT apikeys.webhook_url AS url FROM numbers LEFT JOIN apikeys ON apikeys.id = numbers.apikey_id WHERE numbers.number = $[to] LIMIT 1)) > 0\n        THEN\n                (SELECT apikeys.webhook_url AS url FROM numbers LEFT JOIN apikeys ON apikeys.id = numbers.apikey_id WHERE numbers.number = $[to] LIMIT 1)\n        ELSE\n                NULL\n        END AS url\n      ", {
+                to: receivedMessage.to
+            })
+                .then(function (result) {
+                if (result.url && result.url !== null) {
+                    request_1.Request.post(result.url + '/email', {
+                        to: receivedMessage.to,
+                        from: receivedMessage.from
+                    });
+                }
+            });
+        })
             .catch(function (error) {
             log_1.Log.error('Error sending message, \'' + error.message + '\'');
             res.json({ success: false, errors: error });
@@ -28,6 +43,20 @@ var ReceiveController = (function () {
         var receivedMessage = supplier.receive(req.query);
         this.saveMessage(receivedMessage.to, receivedMessage.from, receivedMessage.message, receivedMessage.timestamp)
             .then(function (messageId) { return res.json({ success: true, message: 'Message has been saved.' }); })
+            .then(function () {
+            var db = new database_1.Database().db;
+            db.one("\n        SELECT\n        CASE\n        WHEN\n                COUNT((SELECT apikeys.webhook_url AS url FROM numbers LEFT JOIN apikeys ON apikeys.id = numbers.apikey_id WHERE numbers.number = $[to] LIMIT 1)) > 0\n        THEN\n                (SELECT apikeys.webhook_url AS url FROM numbers LEFT JOIN apikeys ON apikeys.id = numbers.apikey_id WHERE numbers.number = $[to] LIMIT 1)\n        ELSE\n                NULL\n        END AS url\n      ", {
+                to: receivedMessage.to
+            })
+                .then(function (result) {
+                if (result.url && result.url !== null) {
+                    request_1.Request.post(result.url + '/email', {
+                        to: receivedMessage.to,
+                        from: receivedMessage.from
+                    });
+                }
+            });
+        })
             .catch(function (error) {
             log_1.Log.error('Error sending message, \'' + error.message + '\'');
             res.json({ success: false, errors: error });
