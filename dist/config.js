@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Config = (function () {
     function Config() {
     }
-    Config.port = (process.env.PORT || undefined);
+    Config.port = Number(process.env.PORT || 7890);
     Config.baseWebhook = (process.env.BASE_WEBHOOK || undefined);
-    Config.databaseConnection = (process.env.DATABASE_CONNECTION || undefined);
+    Config.databaseConnection = (process.env.DATABASE_CONNECTION || 'postgres://smshub:smshub@localhost/smshub');
     Config.nexmo = {
         key: (process.env.NEXMO_KEY || undefined),
         secret: (process.env.NEXMO_SECRET || undefined)

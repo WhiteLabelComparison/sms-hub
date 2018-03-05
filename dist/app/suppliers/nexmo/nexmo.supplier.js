@@ -53,7 +53,7 @@ var NexmoSupplier = (function () {
                 country: 'GB', msisdn: number
             })
                 .then(function (result) {
-                return true;
+                res(true);
             })
                 .catch(function (err) { return rej(err); });
         });
