@@ -94,7 +94,7 @@ var AssignController = (function () {
     AssignController.deleteNumber = function (apikeyId, number) {
         log_1.Log.debug("Deleting number (" + number + ") from database for API Key " + apikeyId);
         var db = new database_1.Database().db;
-        return db.one("DELETE FROM numbers WHERE apikey_id = $[apikeyId] AND number = $[number] RETURNING TRUE;", {
+        return db.none("DELETE FROM numbers WHERE apikey_id = $[apikeyId] AND number = $[number];", {
             apikeyId: apikeyId,
             number: number
         });
