@@ -1,49 +1,42 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var requestJs = require("request");
-var Request = (function () {
-    function Request() {
-    }
-    Request.get = function (endpoint, query) {
-        var _this = this;
-        if (query === void 0) { query = undefined; }
-        return new Promise(function (result, reject) {
-            requestJs(endpoint + _this.generateQueryString(query), function (err, res, body) {
+const requestJs = require("request");
+class Request {
+    static get(endpoint, query = undefined) {
+        return new Promise((result, reject) => {
+            requestJs(endpoint + this.generateQueryString(query), (err, res, body) => {
                 if (err) {
                     reject(err);
                 }
-                result({ response: res, body: body });
+                result({ response: res, body });
             });
         });
-    };
-    Request.post = function (endpoint, query) {
-        var _this = this;
-        if (query === void 0) { query = undefined; }
-        return new Promise(function (result, reject) {
+    }
+    static post(endpoint, query = undefined) {
+        return new Promise((result, reject) => {
             requestJs({
-                uri: endpoint + _this.generateQueryString(query),
+                uri: endpoint + this.generateQueryString(query),
                 body: JSON.stringify(query),
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
-                }
-            }, function (err, res, body) {
+                    'Content-Type': 'application/json',
+                },
+            }, (err, res, body) => {
                 if (err) {
                     reject(err);
                 }
-                result({ response: res, body: body });
+                result({ response: res, body });
             });
         });
-    };
-    Request.generateQueryString = function (query) {
-        var str = [];
-        for (var p in query)
+    }
+    static generateQueryString(query) {
+        const str = [];
+        for (const p in query)
             if (query.hasOwnProperty(p)) {
-                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(query[p]));
+                str.push(encodeURIComponent(p) + '=' + encodeURIComponent(query[p]));
             }
-        return query === undefined ? '' : '?' + str.join("&");
-    };
-    return Request;
-}());
+        return !query ? '' : '?' + str.join('&');
+    }
+}
 exports.Request = Request;
 //# sourceMappingURL=request.js.map
