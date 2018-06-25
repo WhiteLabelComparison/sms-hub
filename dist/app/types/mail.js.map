@@ -1,1 +1,1 @@
-{"version":3,"file":"mail.js","sourceRoot":"/home/jread/debtpanel/sms-hub/src/","sources":["app/types/mail.ts"],"names":[],"mappings":";;AAAA;IAAA;IAQA,CAAC;IAAD,WAAC;AAAD,CAAC,AARD,IAQC;AARY,oBAAI;AAUjB;IAAA;IAGA,CAAC;IAAD,qBAAC;AAAD,CAAC,AAHD,IAGC;AAHY,wCAAc"}
+{"version":3,"file":"mail.js","sourceRoot":"","sources":["../../../src/app/types/mail.ts"],"names":[],"mappings":";;AAAA;CAQC;AARD,oBAQC;AAED;CAGC;AAHD,wCAGC"}

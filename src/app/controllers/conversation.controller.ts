@@ -1,10 +1,10 @@
-import {Database} from "../../database";
-import {Log} from "../log";
+import {Database} from '../../database';
+import {Log} from '../log';
 
 export class ConversationController {
 
-    static all(req,res) {
-        let db = new Database().db;
+    static all(req, res) {
+        const db = new Database().db;
 
         db.query(`
             SELECT
@@ -24,18 +24,18 @@ export class ConversationController {
             ORDER BY created_at DESC;
             `, {
             number: req.query.number,
-            address: req.query.address
+            address: req.query.address,
         })
             .then(items => res.json({success: true, data: items}))
             .catch(error => {
-                Log.error("Error adding number, '" + error.message + "'");
-                res.json({success: false, errors: error})
+                Log.error('Error adding number, \'' + error.message + '\'');
+                res.json({success: false, errors: error});
             });
 
     }
 
-    static allAddresses(req,res) {
-        let db = new Database().db;
+    static allAddresses(req, res) {
+        const db = new Database().db;
 
         db.query(`
             SELECT
@@ -50,23 +50,23 @@ export class ConversationController {
                     from conversation_attachments where conversation_id = conversations.id
                 ) as a) as attachments
             FROM conversations
-            WHERE 
+            WHERE
                 outbound_number = $[from]
                 OR inbound_number = $[from]
             ORDER BY created_at DESC;
             `, {
-            from: req.query.address
+            from: req.query.address,
         })
             .then(items => res.json({success: true, data: items}))
             .catch(error => {
-                Log.error("Error adding number, '" + error.message + "'");
-                res.json({success: false, errors: error})
+                Log.error('Error adding number, \'' + error.message + '\'');
+                res.json({success: false, errors: error});
             });
 
     }
 
-    static withAddress(req,res) {
-        let db = new Database().db;
+    static withAddress(req, res) {
+        const db = new Database().db;
         db.query(`
             SELECT
                 outbound_number AS from,
@@ -80,25 +80,23 @@ export class ConversationController {
                     from conversation_attachments where conversation_id = conversations.id
                 ) as a) as attachments
             FROM conversations
-            WHERE 
+            WHERE
                 (outbound_number = $[from] AND inbound_number = $[to])
                 OR (inbound_number = $[from] AND outbound_number = $[to])
             ORDER BY created_at DESC;
             `, {
             from: req.query.address,
-            to: req.params.address
+            to: req.params.address,
         })
             .then(items => res.json({success: true, data: items}))
             .catch(error => {
-                Log.error("Error adding number, '" + error.message + "'");
-                res.json({success: false, errors: error})
+                Log.error('Error adding number, \'' + error.message + '\'');
+                res.json({success: false, errors: error});
             });
     }
 
-
-
-    static allNumbers(req,res) {
-        let db = new Database().db;
+    static allNumbers(req, res) {
+        const db = new Database().db;
 
         db.query(`
             SELECT
@@ -108,23 +106,23 @@ export class ConversationController {
                 message_count AS cost,
                 created_at AS timestamp
             FROM conversations
-            WHERE 
+            WHERE
                 outbound_number = $[from]
                 OR inbound_number = $[from]
             ORDER BY created_at ASC;
             `, {
-                from: req.query.number
+                from: req.query.number,
             })
             .then(items => res.json({success: true, data: items}))
             .catch(error => {
-                Log.error("Error adding number, '" + error.message + "'");
-                res.json({success: false, errors: error})
+                Log.error('Error adding number, \'' + error.message + '\'');
+                res.json({success: false, errors: error});
             });
 
     }
 
-    static withNumber(req,res) {
-        let db = new Database().db;
+    static withNumber(req, res) {
+        const db = new Database().db;
 
         db.query(`
             SELECT
@@ -134,18 +132,18 @@ export class ConversationController {
                 message_count AS cost,
                 created_at AS timestamp
             FROM conversations
-            WHERE 
+            WHERE
                 (outbound_number = $[from] AND inbound_number = $[to])
                 OR (inbound_number = $[from] AND outbound_number = $[to])
             ORDER BY created_at ASC;
             `, {
                 from: req.query.number,
-                to: req.params.number
+                to: req.params.number,
             })
             .then(items => res.json({success: true, data: items}))
             .catch(error => {
-                Log.error("Error adding number, '" + error.message + "'");
-                res.json({success: false, errors: error})
+                Log.error('Error adding number, \'' + error.message + '\'');
+                res.json({success: false, errors: error});
             });
     }
 

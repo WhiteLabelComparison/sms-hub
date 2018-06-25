@@ -1,5 +1,5 @@
 export class TelephoneNumber {
-    id: number;
-    localFormat: string;
-    internationalFormat: string;
+  id: number;
+  localFormat: string;
+  internationalFormat: string;
 }
