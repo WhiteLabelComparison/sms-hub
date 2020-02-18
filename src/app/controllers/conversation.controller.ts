@@ -83,7 +83,8 @@ export class ConversationController {
             WHERE
                 (outbound_number = $[from] AND inbound_number = $[to])
                 OR (inbound_number = $[from] AND outbound_number = $[to])
-            ORDER BY created_at DESC;
+            ORDER BY created_at DESC
+LIMIT 10;
             `, {
             from: req.query.address,
             to: req.params.address,
@@ -135,7 +136,8 @@ export class ConversationController {
             WHERE
                 (outbound_number = $[from] AND inbound_number = $[to])
                 OR (inbound_number = $[from] AND outbound_number = $[to])
-            ORDER BY created_at ASC;
+            ORDER BY created_at ASC
+LIMIT 10;
             `, {
                 from: req.query.number,
                 to: req.params.number,
