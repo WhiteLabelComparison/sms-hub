@@ -1,5 +1,5 @@
-import {Database} from '../../database';
-import {Log} from '../log';
+import { Database } from '../../database';
+import { Log } from '../log';
 
 export class ConversationController {
 
@@ -21,16 +21,17 @@ export class ConversationController {
                 ) as a) as attachments
             FROM conversations
             WHERE inbound_number = $[number] OR inbound_number = $[address]
-            ORDER BY created_at DESC;
+            ORDER BY created_at DESC
+LIMIT 10;
             `, {
             number: req.query.number,
             address: req.query.address,
         })
-            .then(items => res.json({success: true, data: items}))
-            .catch(error => {
-                Log.error('Error adding number, \'' + error.message + '\'');
-                res.json({success: false, errors: error});
-            });
+          .then(items => res.json({ success: true, data: items }))
+          .catch(error => {
+              Log.error('Error adding number, \'' + error.message + '\'');
+              res.json({ success: false, errors: error });
+          });
 
     }
 
@@ -53,15 +54,16 @@ export class ConversationController {
             WHERE
                 outbound_number = $[from]
                 OR inbound_number = $[from]
-            ORDER BY created_at DESC;
+            ORDER BY created_at DESC
+LIMIT 10;
             `, {
             from: req.query.address,
         })
-            .then(items => res.json({success: true, data: items}))
-            .catch(error => {
-                Log.error('Error adding number, \'' + error.message + '\'');
-                res.json({success: false, errors: error});
-            });
+          .then(items => res.json({ success: true, data: items }))
+          .catch(error => {
+              Log.error('Error adding number, \'' + error.message + '\'');
+              res.json({ success: false, errors: error });
+          });
 
     }
 
@@ -89,11 +91,11 @@ LIMIT 10;
             from: req.query.address,
             to: req.params.address,
         })
-            .then(items => res.json({success: true, data: items}))
-            .catch(error => {
-                Log.error('Error adding number, \'' + error.message + '\'');
-                res.json({success: false, errors: error});
-            });
+          .then(items => res.json({ success: true, data: items }))
+          .catch(error => {
+              Log.error('Error adding number, \'' + error.message + '\'');
+              res.json({ success: false, errors: error });
+          });
     }
 
     static allNumbers(req, res) {
@@ -110,15 +112,16 @@ LIMIT 10;
             WHERE
                 outbound_number = $[from]
                 OR inbound_number = $[from]
-            ORDER BY created_at ASC;
+            ORDER BY created_at ASC
+LIMIT 10;
             `, {
-                from: req.query.number,
-            })
-            .then(items => res.json({success: true, data: items}))
-            .catch(error => {
-                Log.error('Error adding number, \'' + error.message + '\'');
-                res.json({success: false, errors: error});
-            });
+            from: req.query.number,
+        })
+          .then(items => res.json({ success: true, data: items }))
+          .catch(error => {
+              Log.error('Error adding number, \'' + error.message + '\'');
+              res.json({ success: false, errors: error });
+          });
 
     }
 
@@ -139,14 +142,14 @@ LIMIT 10;
             ORDER BY created_at ASC
 LIMIT 10;
             `, {
-                from: req.query.number,
-                to: req.params.number,
-            })
-            .then(items => res.json({success: true, data: items}))
-            .catch(error => {
-                Log.error('Error adding number, \'' + error.message + '\'');
-                res.json({success: false, errors: error});
-            });
+            from: req.query.number,
+            to: req.params.number,
+        })
+          .then(items => res.json({ success: true, data: items }))
+          .catch(error => {
+              Log.error('Error adding number, \'' + error.message + '\'');
+              res.json({ success: false, errors: error });
+          });
     }
 
 }

@@ -20,7 +20,8 @@ class ConversationController {
                 ) as a) as attachments
             FROM conversations
             WHERE inbound_number = $[number] OR inbound_number = $[address]
-            ORDER BY created_at DESC;
+            ORDER BY created_at DESC
+LIMIT 10;
             `, {
             number: req.query.number,
             address: req.query.address,
@@ -49,7 +50,8 @@ class ConversationController {
             WHERE
                 outbound_number = $[from]
                 OR inbound_number = $[from]
-            ORDER BY created_at DESC;
+            ORDER BY created_at DESC
+LIMIT 10;
             `, {
             from: req.query.address,
         })
@@ -77,7 +79,8 @@ class ConversationController {
             WHERE
                 (outbound_number = $[from] AND inbound_number = $[to])
                 OR (inbound_number = $[from] AND outbound_number = $[to])
-            ORDER BY created_at DESC;
+            ORDER BY created_at DESC
+LIMIT 10;
             `, {
             from: req.query.address,
             to: req.params.address,
@@ -101,7 +104,8 @@ class ConversationController {
             WHERE
                 outbound_number = $[from]
                 OR inbound_number = $[from]
-            ORDER BY created_at ASC;
+            ORDER BY created_at ASC
+LIMIT 10;
             `, {
             from: req.query.number,
         })
@@ -124,7 +128,8 @@ class ConversationController {
             WHERE
                 (outbound_number = $[from] AND inbound_number = $[to])
                 OR (inbound_number = $[from] AND outbound_number = $[to])
-            ORDER BY created_at ASC;
+            ORDER BY created_at ASC
+LIMIT 10;
             `, {
             from: req.query.number,
             to: req.params.number,
