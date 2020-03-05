@@ -140,10 +140,11 @@ LIMIT 10;
                 (outbound_number = $[from] AND inbound_number = $[to])
                 OR (inbound_number = $[from] AND outbound_number = $[to])
             ORDER BY created_at ASC
-LIMIT 10;
+LIMIT $[limit];
             `, {
             from: req.query.number,
             to: req.params.number,
+          limit: req.params.limit ? req.params.limit : 10,
         })
           .then(items => res.json({ success: true, data: items }))
           .catch(error => {
