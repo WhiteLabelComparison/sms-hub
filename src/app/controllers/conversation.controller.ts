@@ -144,7 +144,7 @@ LIMIT $[limit];
             `, {
             from: req.query.number,
             to: req.params.number,
-          limit: req.params.limit ? req.params.limit : 10,
+          limit: req.query.limit ? req.params.limit : 10,
         })
           .then(items => res.json({ success: true, data: items }))
           .catch(error => {
