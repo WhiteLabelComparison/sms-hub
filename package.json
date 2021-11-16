@@ -14,7 +14,7 @@
   "author": "Simon Skinner <ss@beyondcomparison.com>",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "2.205.0",
+    "aws-sdk": "2.814.0",
     "body-parser": "1.18.2",
     "dotenv": "4.0.0",
     "express": "4.16.2",
